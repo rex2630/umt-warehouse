@@ -4,7 +4,7 @@ Config = {
     AddBoughtHouses = false, 
     EnableGarage = false, 
     Use3DText = false, 
-    
+
     Props = { 
         ['warehouse1'] = `shell_warehouse1`,
         ['warehouse2'] = `shell_warehouse2`,
@@ -13,7 +13,6 @@ Config = {
         ['warehouse5'] = `shell_weed2`,
         ['warehouse6'] = `shell_coke1`
     },
-
 
     Offsets = { 
         ['warehouse1'] = {['door'] = vector3(5.50, 0.99, -1.39), ['storage'] = vector3(0.17, -3.51, -1.39) , ['spawn_furniture'] = vector3(1.046143, 0.06665039, -1.398043)},
@@ -90,7 +89,6 @@ Config = {
         "seven70"
     },
 
-    
     Houses = { 
         [1] = {name = 'warehouse2', coords = vector3(925.8994, -2308.06, 30.509), price = 1},
         [2] = {name = 'warehouse2', coords = vector3(751.3571, -1849.84, 29.291), price = 1},
@@ -233,7 +231,7 @@ Strings = {
     ['bullets'] = 'bullets', 
     ['Rotation'] = 'rotation',
     ['Guests'] = 'Your guests need to leave the house before you may do this.',
-    ['Garage'] = 'Enter garage',
+    ['Garage'] = 'Vstoupit do garaze',
     ['No_Spawn'] = 'Couldn\'t find a spawnpoint for your house.',
     ['Host_Left'] = 'The house owner left the server, you were kicked out of their house.',
     ['No_Money'] = 'You don\'t have enough money!',
