@@ -5,11 +5,6 @@ local blips = {}
 local Knockings = {}
 local housespawn = false
 
-
-
-
-
-
 Citizen.CreateThread(function()
     while ESX == nil do TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end) Wait(0) end
     while ESX.GetPlayerData().job == nil do Wait(0) end
@@ -17,7 +12,6 @@ Citizen.CreateThread(function()
 
     while OwnedHouse == nil do Wait(0) end
 
-    
     local WareHouse = AddBlipForCoord(vector3(Config.WareHouseBB["x"], Config.WareHouseBB["y"], Config.WareHouseBB["z"]))
     SetBlipSprite(WareHouse, 369)
     SetBlipColour(WareHouse, 2)
@@ -26,18 +20,7 @@ Citizen.CreateThread(function()
     BeginTextCommandSetBlipName("STRING")
     AddTextComponentString("Warehouse")
     EndTextCommandSetBlipName(WareHouse)
-
 end)
-
-
-
-
-
-
-
-
-
-
 
 RegisterCommand('whenter', function()
     for k, v in pairs(Config.Houses) do
@@ -49,19 +32,17 @@ RegisterCommand('whenter', function()
     end
 end)
 
-
 function HouseBuyMenu()
     ESX.UI.Menu.CloseAll()
-    ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'houseBuyFirstMenu',
-    {
+    ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'houseBuyFirstMenu', {
         title    = 'Warehouses',
         align    = 'left',
         elements = {
             {label = "Warehouse Satın Al", value = "warehouse_buy"},
             {label = "Satın Aldığım Warehouse", value = "evlerim"},
             {label = "Satın Alınabilen Warehouseleri Göster/Gizle", value = "evgoster"}
-        }
-    },function(data, menu)
+        }},function(data, menu)
+
         if data.current.value == "warehouse_buy" then
             BuyHouse()
         elseif data.current.value == "evlerim" then
@@ -75,41 +56,32 @@ function HouseBuyMenu()
     end)
 end
 
-
-
-
-
-
-
-
 function BuyHouse()
     local elements = {}
     local Houses = Config.Houses
-    local doorID   = Config.Houses[i]
+    local doorID = Config.Houses[i]
     
     for x, y in pairs(Houses) do
         table.insert(elements, {label =  x .." Nolu Warehouse Satın Al $".. Houses[x]["price"], value = x})
     end
 
-
-    ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'buyHouse',
-    {
+    ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'buyHouse', {
         title    = 'Depo Evi Satın Al',
         align    = 'left',
         elements = elements
     },function(data, menu)
+
         if data.current.value then
             local evNo = data.current.value
-            ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'buyHouseSoru',
-            {
-                title    = evNo .. ' Nolu Warehouse Satın Almak İçin Emin misin',
-                align    = 'left',
+            ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'buyHouseSoru', {
+                title = evNo .. ' Opravdu chces zakoupit sklad?',
+                align = 'left',
                 elements = {
-                    {label =  "Evet", value = "yes"},
-                    {label =  "Hayır", value = "no"}
-                }
-            },function(data2, menu2)
+                    {label =  "Ano", value = "yes"},
+                    {label =  "Ne", value = "no"}
+                }},function(data2, menu2)
                 menu2.close()
+
                 if data2.current.value == "yes" then
                     ESX.UI.Menu.CloseAll()
                     TriggerServerEvent('umt-warehouse:buyHouse', evNo)
@@ -125,9 +97,6 @@ function BuyHouse()
     end)
 end
 
-
-
-
 function ChangePassword(evNo)
 	ESX.UI.Menu.Open('dialog', GetCurrentResourceName(), 'Ev Şifresi', {
 		title = "Ev Şifresini Giriniz",
@@ -139,7 +108,7 @@ function ChangePassword(evNo)
             TriggerEvent('notification', 'Şifreniz kayıt oldu!  '.. '=> ' .. password, 2)
             menu.close()
         else
-            TriggerEvent('notification', 'Geçersiz şifre!', 2)
+            TriggerEvent('notification', 'Neplatne heslo!', 2)
             menu.close()
 		end
 	end, function (data2, menu)
@@ -167,12 +136,12 @@ function myHouse()
         end
     end
     
-    ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'myHouse',
-    {
+    ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'myHouse', {
         title    = 'Warehouse System',
         align    = 'left',
         elements = elements
     },function(data, menu)
+
         if data.current.value then
             if data.current.durum == "sat" then
                 if anahtar then 
@@ -181,13 +150,12 @@ function myHouse()
                     yazi = data.current.value .. " Nolu Warehouse ".. fiyat .."$ Karşılığında Satmak İstediğinden Eminmisin"
                 end
 
-                ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'myHouseSoruMenu',
-                {
+                ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'myHouseSoruMenu', {
                     title    = yazi,
                     align    = 'left',
                     elements = {
-                        {label =  "Evet", value = "yes"},
-                        {label =  "Hayır", value = "no"}
+                        {label =  "Ano", value = "yes"},
+                        {label =  "Ne", value = "no"}
                     }
                 },function(data2, menu2)
                     menu2.close()
@@ -221,17 +189,14 @@ end
 function OpenGarageMenu()
     ESX.UI.Menu.CloseAll()
 
-    ESX.UI.Menu.Open(
-        'default', GetCurrentResourceName(), 'pawn_sell_menu',
-        {
-            title    = 'Araç garajı',
+    ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'pawn_sell_menu', {
+            title = 'Garaz vozidel',
             elements = {
-                {label = 'Garaja gir', value = 'opengarage'},
+                {label = 'Otevrit garaz', value = 'opengarage'},
                 {label = '', value = ''},
-                {label = 'Aracını garaja çek', value = 'putgarage'},
-            }
-        },
-        function(data, menu)
+                {label = 'Zaparkovat do garaze', value = 'putgarage'},
+            }}, function(data, menu)
+
             if data.current.value == 'opengarage' then
                 local coords = Config.Houses[OwnedHouse.houseId]['door']
                 local found, coords, heading = GetClosestVehicleNodeWithHeading(coords.x, coords.y, coords.z, 3.0, 100.0, 2.5)
@@ -247,14 +212,10 @@ function OpenGarageMenu()
                     TriggerEvent('esx_garage:storeVehicle', 'housing')
                 end
             end
-        end,
-        function(data, menu)
+        end, function(data, menu)
             menu.close()
-        end
-    )
+        end)
 end
-
-
 
 function satilanEvler()
     if not goster then
@@ -273,7 +234,6 @@ function satilanEvler()
         TriggerEvent('notification', 'Haritada Satın Alınabilen Evler Kapatıldı!', 2)
     end
 end
-
 
 RegisterNetEvent('umt-warehouse:spawnHouse')
 AddEventHandler('umt-warehouse:spawnHouse', function(coords, furniture)
@@ -323,7 +283,6 @@ AddEventHandler('umt-warehouse:spawnHouse', function(coords, furniture)
         SetWeatherTypeNow('EXTRASUNNY')
         SetWeatherTypeNowPersist('EXTRASUNNY')
 
-
         if Vdist2(GetEntityCoords(PlayerPedId()), storage) <= 9.2 then
             DrawText3D(storage, "[E] Depo")
 
@@ -332,8 +291,6 @@ AddEventHandler('umt-warehouse:spawnHouse', function(coords, furniture)
                 ESX.UI.Menu.CloseAll()
 
                 TriggerEvent("disc-inventoryhud:stash", "Warehouse - "..tostring(OwnedHouse.houseId))
-                
-
             end
         end
         if Vdist2(GetEntityCoords(PlayerPedId()), exit) <= 10 then
@@ -383,13 +340,10 @@ AddEventHandler('umt-warehouse:spawnHouse', function(coords, furniture)
     end
 end)
 
-
-
 RegisterNetEvent('umt-warehouse:leaveHouse')
 AddEventHandler('umt-warehouse:leaveHouse', function(house)
     local player = PlayerPedId()
     local vehicle = GetVehiclePedIsIn(playerPed, false)
-
 
     DoScreenFadeOut(300)
     while not IsScreenFadedOut() do Wait(0) end
@@ -406,14 +360,12 @@ AddEventHandler('umt-warehouse:leaveHouse', function(house)
     DoScreenFadeIn(300)
 end)
 
-
 RegisterNetEvent('umt-warehouse:reloadHouses')
 AddEventHandler('umt-warehouse:reloadHouses', function()
     while ESX == nil do TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end) Wait(0) end
     while ESX.GetPlayerData().job == nil do Wait(0) end
     TriggerServerEvent('umt-warehouse:getOwned')
 end)
-
 
 RegisterNetEvent('umt-warehouse:setHouse')
 AddEventHandler('umt-warehouse:setHouse', function(house, purchasedHouses)
@@ -473,8 +425,6 @@ CreateBlip = function(coords, sprite, colour, scale, text)
     table.insert(blips, blip)
 end
 
-
-
 local enableField = false
 
 function toggleField(enable)
@@ -492,13 +442,11 @@ RegisterNUICallback('escape', function(data, cb)
     cb('ok')
 end)
 
-
 RegisterNUICallback('try', function(data, cb, evNo)
     toggleField(false)
     local code = tonumber(data.code)
     local playerCoords = GetEntityCoords(PlayerPedId())
     local evNo = Config.Houses
-
 
     for k, v in pairs(evNo) do
 
@@ -522,18 +470,12 @@ RegisterNUICallback('try', function(data, cb, evNo)
     cb('ok')
   end)
 
-
-
-
-
   ----- CONTRACT KISMI
-
 ----  if OwnedHouse.houseid == k then & diyip ev ayarlarını açtırabiliriz 
 ----  else attırıp 
   local selectedHouse = nil
   local evNo = Config.Houses
   local satinalindi = false
-
 
 Citizen.CreateThread(function()
     local player = PlayerPedId()
@@ -554,7 +496,6 @@ Citizen.CreateThread(function()
         Citizen.Wait(sleepthread)
     end
 end)
-
 
 RegisterNetEvent('umt-warehouse:faraway')  -- deneme kısmı
 AddEventHandler('umt-warehouse:faraway', function()
@@ -591,25 +532,17 @@ AddEventHandler('umt-warehouse:faraway', function()
         end
 end)
 
-
-
-
-
-
 function OpenBuyMenu(evNo)
     for k, v in pairs(evNo) do
         openContract(true)
     end
 end
-  
-  
+
   RegisterNUICallback("buy", function(evNo)
     local evNo = Config.Houses
 
     for k, v in pairs(evNo) do
-
         if Vdist2(GetEntityCoords(PlayerPedId()), v['door']) <= 6.5 then
-            
             TriggerServerEvent("umt-warehouse:buyHouse", k)
             Wait(200)
             exports['mythic_notify']:SendAlert('error', 'Ev Yönetiminden şifrenizi oluşturunuz')
@@ -618,20 +551,13 @@ end
             -- SetNuiFocus(true, true)
             -- ChangePassword(k)
             satinalindi = true
-            
             end
         end
     end)
 
-  
-
-
-
-
-
   function InstructionButton(ControlButton)
     N_0xe83a3e3557a56640(ControlButton)
-end
+   end
 
 function InstructionButtonMessage(text)
     BeginTextCommandScaleformString("STRING")
@@ -657,13 +583,10 @@ function openContract(bool)
     contractOpen = bool
 end
 
-
 RegisterNUICallback('exit', function()
     openContract(false)
     disableViewCam()
 end)
-
-
 
 function setViewCam(coords, h, yaw)
     cam = CreateCamWithParams("DEFAULT_SCRIPTED_CAMERA", 855.8841, -2120.14, 30.646, yaw, 0.00, h, 80.00, false, 0)
@@ -677,9 +600,7 @@ AddEventHandler('umt-warehouse:client:viewHouse', function(houseprice, brokerfee
     -- setViewCam(Config.Houses[closesthouse].coords.cam, Config.Houses[closesthouse].coords.cam.h, Config.Houses[closesthouse].coords.yaw)
     local evNo = Config.Houses
 
-
     for k, v in pairs(evNo) do
-
         if Vdist2(GetEntityCoords(PlayerPedId()), v['door']) <= 6.5 then
 
     Citizen.Wait(500)
@@ -698,5 +619,3 @@ AddEventHandler('umt-warehouse:client:viewHouse', function(houseprice, brokerfee
         end
     end
 end)
-
-
