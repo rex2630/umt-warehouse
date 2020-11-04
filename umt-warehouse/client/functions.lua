@@ -25,19 +25,16 @@ weaponStorage = function(id)
         
     end)
 
-    ESX.UI.Menu.Open(
-        'default', GetCurrentResourceName(), 'storage',
-    {
+    ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'storage', {
         title = Strings['Storage_Title'],
         align = 'center',
         elements = {
             {label = Strings['Store'], value = 's'},
             {label = Strings['Withdraw'], value = 'w'}
         },
-    },
-    function(data, menu)
-        if data.current.value == 's' then
+    }, function(data, menu)
 
+        if data.current.value == 's' then
             ESX.TriggerServerCallback('umt-warehouse:getInventory', function(inv)
 
                 local elements = {}
@@ -56,11 +53,9 @@ weaponStorage = function(id)
                 end, function(data2, menu2)
                     menu2.close()
                 end)
-
             end)
 
         elseif data.current.value == 'w' then
-            
             ESX.TriggerServerCallback('umt-warehouse:getHouseInv', function(inv)
 
                 local elements = {}
@@ -79,11 +74,8 @@ weaponStorage = function(id)
                 end, function(data2, menu2)
                     menu2.close()
                 end)
-
             end, id)
-
         end
-
     end, function(data, menu)
         menu.close()
     end)
@@ -92,19 +84,16 @@ end
 itemStorage = function(id)
     ESX.UI.Menu.CloseAll()
 
-    ESX.UI.Menu.Open(
-        'default', GetCurrentResourceName(), 'storage',
-    {
+    ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'storage', {
         title = Strings['Storage_Title'],
         align = 'center',
         elements = {
             {label = Strings['Store'], value = 's'},
             {label = Strings['Withdraw'], value = 'w'}
         },
-    },
-    function(data, menu)
-        if data.current.value == 's' then
+    }, function(data, menu)
 
+        if data.current.value == 's' then
             ESX.TriggerServerCallback('umt-warehouse:getInventory', function(inv)
                 local elements = {}
         
@@ -140,8 +129,8 @@ itemStorage = function(id)
                     menu2.close()
                 end)
             end)
+
         elseif data.current.value == 'w' then
-            
             ESX.TriggerServerCallback('umt-warehouse:getHouseInv', function(inv)
 
                 local elements = {}
@@ -177,11 +166,8 @@ itemStorage = function(id)
                 end, function(data2, menu2)
                     menu2.close()
                 end)
-
             end, id)
-
         end
-
     end, function(data, menu)
         menu.close()
     end)
