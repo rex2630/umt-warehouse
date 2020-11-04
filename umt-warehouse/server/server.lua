@@ -23,35 +23,31 @@ AddEventHandler('umt-warehouse:enterHouse', function(id)
                     end
                 end
             else
-            print(('Problem var'):format(GetCurrentResourceName(), xPlayer.identifier, id, id))
+--            print(('Problem var'):format(GetCurrentResourceName(), xPlayer.identifier, id, id))
         end
     end)
 end)
 
 RegisterServerEvent('umt-warehouse:changeHousePassword')
 AddEventHandler('umt-warehouse:changeHousePassword', function(houseid, password)
-
     MySQL.Async.execute("UPDATE bought_houses SET housepassword=@password WHERE houseid=@houseid",
     {['@password'] = password,
      ['@houseid'] = houseid})
-     print(houseid,'burasi ev')
-     print(password, 'burasi password')
+--     print(houseid,'burasi ev')
+--     print(password, 'burasi password')
 end)
 
-
 ESX.RegisterServerCallback('umt-warehouse:getHousePassword', function(source, cb, houseid) 
-
     MySQL.Async.fetchAll('SELECT housepassword FROM bought_houses WHERE houseid=@houseid', 
         {['@houseid'] = houseid},
             function(result)
                 if result[1] ~= nil then
-                    print(result[1].housepassword)
+--                    print(result[1].housepassword)
 
-                    
                 cb(tonumber(result[1].housepassword))
                  end
             end)
-    end)
+end)
 
 -- ESX.RegisterServerCallback('umt-warehouse:getHousePassword', function(source, password)
     
@@ -69,8 +65,6 @@ ESX.RegisterServerCallback('umt-warehouse:getHousePassword', function(source, cb
 
 --         print(houseid, password)
 -- end)
-
-
 
 RegisterServerEvent('umt-warehouse:leaveHouse')
 AddEventHandler('umt-warehouse:leaveHouse', function(house)
@@ -113,7 +107,6 @@ AddEventHandler('umt-warehouse:letIn', function(plr, storage)
         end
     end
 end)
-
 
 RegisterServerEvent('umt-warehouse:setInstanceCoords')
 AddEventHandler('umt-warehouse:setInstanceCoords', function(coords, housecoords, prop, placedfurniture)
@@ -211,8 +204,6 @@ function getIdentity(source)
 	end
 end
 
-
-
 RegisterServerEvent('umt-warehouse:giveWarehouse')
 AddEventHandler('umt-warehouse:giveWarehouse', function(id)
     local src = source
@@ -233,7 +224,6 @@ AddEventHandler('umt-warehouse:giveWarehouse', function(id)
     Wait(600)
     TriggerClientEvent('umt-warehouse:reloadHouses', -1)
 end)
-
 
 RegisterServerEvent('umt-warehouse:sellHouse')
 AddEventHandler('umt-warehouse:sellHouse', function()
@@ -356,7 +346,6 @@ AddEventHandler('umt-warehouse:withdrawItem', function(type, item, amount, owner
                 end)
 
             elseif type == 'weapon' then
-
                 TriggerEvent('esx_datastore:getDataStore', 'housing', identifier, function(weapons)
                     local loadout = weapons.get('weapons') or {}
 
@@ -373,9 +362,7 @@ AddEventHandler('umt-warehouse:withdrawItem', function(type, item, amount, owner
                 end)
             end
         end
-
     end
-    
 end)
 
 RegisterServerEvent('umt-warehouse:storeItem')
@@ -399,8 +386,8 @@ AddEventHandler('umt-warehouse:storeItem', function(type, item, amount, owner)
                 end
 
             elseif type == 'weapon' then
-
                 local loadout, hasweapon = xPlayer.getLoadout(), false
+
                 for k, v in pairs(loadout) do
                     if v['name'] == item then
                         hasweapon = true
@@ -422,6 +409,5 @@ AddEventHandler('umt-warehouse:storeItem', function(type, item, amount, owner)
                 end
             end
         end
-
 	end
 end)
